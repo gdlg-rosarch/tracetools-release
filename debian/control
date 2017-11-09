@@ -1,0 +1,12 @@
+Source: ros-indigo-tracetools
+Section: misc
+Priority: extra
+Maintainer: Ingo Luetkebohle <ingo.luetkebohle@de.bosch.com>
+Build-Depends: debhelper (>= 9.0.0), libboost-all-dev, pkg-config, ros-indigo-catkin, ros-indigo-rosbash
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-indigo-tracetools
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, 
+Description: Wrapper interface for tracing libraries

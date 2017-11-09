@@ -1,14 +1,12 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(tracetools)
 
-add_definitions(-std=c++11)
-
 ## Check if we have catkin
-find_package(catkin REQUIRED COMPONENTS roscpp)
+find_package(catkin REQUIRED)
 find_package(PkgConfig REQUIRED)
 
-## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+## need boost shared_ptr
+find_package(Boost REQUIRED)
 
 option(WITH_LTTNG "Include support for tracing with LTTng" OFF)
 if(WITH_LTTNG)
@@ -35,11 +33,6 @@ if(WITH_LTTNG)
 	message(STATUS ${LTTNG_GENERATED})
 endif()
 
-
-## Uncomment this if the package has a setup.py. This macro ensures
-## modules and global scripts declared therein get installed
-## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
-catkin_python_setup()
 
 ###################################
 ## catkin specific configuration ##
@@ -75,7 +68,6 @@ if(WITH_LTTNG)
 endif()
 
 add_library(${PROJECT_NAME} ${TT_SOURCES})
-# we do NOT want to link against catkin_LIBRARIES, those are only for tests
 target_link_libraries(${PROJECT_NAME})
 if(WITH_LTTNG)
 	target_link_libraries(${PROJECT_NAME} ${LTTNG_LIBRARIES})
@@ -117,12 +109,12 @@ target_link_libraries(${PROJECT_NAME}_test
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 install(PROGRAMS
-  scripts/ctf_pickle_pod.py scripts/setup-lttng-roscpp.sh
+  scripts/setup-lttng-roscpp.sh
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
 ## Mark executables and/or libraries for installation
-install(TARGETS ${PROJECT_NAME}
+install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_status ${PROJECT_NAME}_test
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
